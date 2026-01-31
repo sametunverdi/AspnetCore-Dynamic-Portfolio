@@ -1,0 +1,80 @@
+﻿@model ResumeProjectDemoNight.Entities.Portfolio
+
+@{
+    ViewData["Title"] = "Projeyi Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="p-6">
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-white">Projeyi Güncelle</h2>
+        <p class="text-slate-400 text-sm mt-1">Mevcut proje bilgilerini buradan düzenleyebilirsiniz.</p>
+    </div>
+
+    <div class="max-w-2xl">
+        <form method="post">
+
+            <input type="hidden" asp-for="PortfolioId" />
+
+            <div class="bg-card-dark p-8 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+
+                <div class="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+
+                <div class="space-y-6 relative z-10">
+
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                            <span class="material-symbols-outlined text-2xl">edit_note</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Düzenleme Ekranı</h3>
+                            <p class="text-slate-500 text-xs">Proje bilgilerini güncelleyin.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Başlık (ProjectTitle)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">title</span>
+                            <input type="text" asp-for="ProjectTitle" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-600" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Görsel Url (ImageUrl)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">image</span>
+                            <input type="text" asp-for="ImageUrl" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-600" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Proje Durumu (Status)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">toggle_on</span>
+                            <select asp-for="Status" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none cursor-pointer">
+                                <option value="true">Yayında (Aktif)</option>
+                                <option value="false">Pasif (Gizli)</option>
+                            </select>
+                            <span class="absolute right-4 top-4 text-slate-500 material-symbols-outlined text-[20px] pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-4 mt-8 pt-6 border-t border-slate-800">
+                    <button type="submit" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 flex items-center gap-2">
+                        <span class="material-symbols-outlined">save</span>
+                        Değişiklikleri Kaydet
+                    </button>
+
+                    <a href="/Portfolio/PortfolioList/" class="text-slate-400 hover:text-white px-4 py-2 transition-colors flex items-center gap-2">
+                        İptal
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

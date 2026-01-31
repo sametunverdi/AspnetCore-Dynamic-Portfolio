@@ -1,0 +1,84 @@
+﻿@using ResumeProjectDemoNight.Entities
+@model List<Testimonial>
+
+@{
+    ViewData["Title"] = "TestimonialList";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="p-6">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Referanslar</h2>
+            <p class="text-slate-400 text-sm mt-1">Müşterilerinizin ve iş ortaklarınızın yorumlarını buradan yönetin.</p>
+        </div>
+
+        <a href="/Testimonial/AddTestimonial/" class="group flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-primary/40">
+            <span class="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add_comment</span>
+            <span class="font-medium">Yeni Referans Ekle</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        @foreach (var item in Model)
+        {
+            <div class="group bg-card-dark rounded-2xl border border-slate-800 p-8 relative hover:border-primary/50 transition-all duration-300 shadow-lg flex flex-col h-full">
+
+                <div class="absolute top-6 right-6 text-6xl text-slate-800 font-serif leading-none group-hover:text-primary/20 transition-colors">”</div>
+
+                <div class="flex items-center gap-4 mb-6 relative z-10">
+                    <div class="w-14 h-14 rounded-full bg-slate-700 p-0.5 border border-slate-600 group-hover:border-primary transition-colors">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.NameSurname" class="w-full h-full rounded-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=@item.NameSurname&background=random'" />
+                        }
+                        else
+                        {
+                            <img src="https://ui-avatars.com/api/?name=@item.NameSurname&background=random" class="w-full h-full rounded-full object-cover" />
+                        }
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white leading-tight">@item.NameSurname</h3>
+                        <p class="text-primary text-xs font-medium mt-0.5">@item.Title</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 mb-6 relative z-10">
+                    <p class="text-slate-400 text-sm leading-relaxed italic">
+                        "@item.Comment"
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-slate-800 relative z-10">
+                    <span class="text-[10px] text-slate-600 font-mono">ID: #@item.TestimonialId</span>
+
+                    <div class="flex gap-2">
+                        <a href="/Testimonial/EditTestimonial/@item.TestimonialId" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-primary hover:text-white transition-colors" title="Düzenle">
+                            <span class="material-symbols-outlined text-[18px]">edit_square</span>
+                        </a>
+                        <a href="/Testimonial/DeleteTestimonial/@item.TestimonialId"
+                           class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:bg-red-500/10 hover:text-red-500 transition-colors"
+                           onclick="return confirm('Bu referansı silmek istediğinize emin misiniz?');"
+                           title="Sil">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="flex flex-col items-center justify-center py-20 text-slate-500 bg-card-dark/50 rounded-2xl border border-dashed border-slate-800 mt-6">
+            <span class="material-symbols-outlined text-4xl opacity-50 mb-3">reviews</span>
+            <p>Henüz referans eklenmemiş.</p>
+        </div>
+    }
+
+</div>
+

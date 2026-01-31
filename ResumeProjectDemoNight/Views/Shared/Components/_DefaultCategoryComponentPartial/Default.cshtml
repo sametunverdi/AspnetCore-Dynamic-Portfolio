@@ -1,0 +1,15 @@
+﻿@using ResumeProjectDemoNight.Entities
+@model List<Category>
+
+<ul class="portfolio-filter list-inline text-center">
+
+    <li class="current list-inline-item" data-filter="*">Tümü</li>
+
+    @foreach (var item in Model)
+    {
+        <li class="list-inline-item"
+            data-filter=".@item.Name.ToLower().Replace(" ", "")">
+            @item.Name
+        </li>
+    }
+</ul>

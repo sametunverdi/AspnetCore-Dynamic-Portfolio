@@ -1,0 +1,263 @@
+﻿@using ResumeProjectDemoNight.Entities
+@model List<Message>
+
+@{
+    ViewData["Title"] = "Genel Bakış";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="p-6 space-y-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-blue-600 to-blue-800 shadow-2xl shadow-blue-900/40 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+                        <span class="material-symbols-outlined text-white">layers</span>
+                    </div>
+                    <span class="text-xs font-bold bg-black/20 text-blue-100 px-2 py-1 rounded-lg">+2 Bu Ay</span>
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1">@ViewBag.ProjectCount</h3>
+                <p class="text-blue-100 font-medium">Toplam Proje</p>
+            </div>
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+
+        <div class="relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-purple-600 to-indigo-800 shadow-2xl shadow-purple-900/40 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+                        <span class="material-symbols-outlined text-white">code_blocks</span>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1">@ViewBag.SkillCount</h3>
+                <p class="text-purple-100 font-medium">Teknik Yetenek</p>
+            </div>
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+
+        <div class="relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-emerald-600 to-teal-800 shadow-2xl shadow-emerald-900/40 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+                        <span class="material-symbols-outlined text-white">speed</span>
+                    </div>
+                    <span class="text-xs font-bold bg-white/20 text-white px-2 py-1 rounded-lg">Ortalama</span>
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1">@Math.Round((double)ViewBag.AvgSkillValue, 1)</h3>
+                <p class="text-emerald-100 font-medium">Yetenek Puanı</p>
+            </div>
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+
+        <div class="relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-orange-500 to-red-600 shadow-2xl shadow-orange-900/40 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+                        <span class="material-symbols-outlined text-white">mail</span>
+                    </div>
+                    @if (ViewBag.UnreadMessages > 0)
+                    {
+                        <span class="flex h-3 w-3 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                        </span>
+                    }
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1">@ViewBag.UnreadMessages</h3>
+                <p class="text-orange-100 font-medium">Okunmamış Mesaj</p>
+            </div>
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+        <div class="xl:col-span-2 bg-card-dark rounded-3xl border border-slate-800 p-6 shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Site İstatistik Analizi</h3>
+                    <p class="text-slate-500 text-sm">Veri dağılımı ve yoğunluk grafiği</p>
+                </div>
+                <button class="p-2 hover:bg-slate-800 rounded-lg text-slate-400 transition-colors">
+                    <span class="material-symbols-outlined">more_horiz</span>
+                </button>
+            </div>
+            <div class="h-[300px] w-full">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-card-dark rounded-3xl border border-slate-800 p-6 shadow-xl flex flex-col items-center justify-center relative">
+            <h3 class="text-lg font-bold text-white w-full text-left mb-4">İçerik Dağılımı</h3>
+            <div class="relative w-56 h-56">
+                <canvas id="pieChart"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span class="text-3xl font-bold text-white">Data</span>
+                    <span class="text-xs text-slate-500">Analiz</span>
+                </div>
+            </div>
+            <div class="mt-6 w-full space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="flex items-center gap-2 text-slate-400"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Projeler</span>
+                    <span class="text-white font-bold">@ViewBag.ProjectCount</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="flex items-center gap-2 text-slate-400"><span class="w-3 h-3 rounded-full bg-purple-500"></span> Yetenekler</span>
+                    <span class="text-white font-bold">@ViewBag.SkillCount</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="flex items-center gap-2 text-slate-400"><span class="w-3 h-3 rounded-full bg-orange-500"></span> Mesajlar</span>
+                    <span class="text-white font-bold">@ViewBag.MessageCount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+        <div class="bg-card-dark rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-black/20">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-orange-500">inbox</span>
+                    Son Gelen Mesajlar
+                </h3>
+            </div>
+            <div class="p-2">
+                @foreach (var msg in Model)
+                {
+                    <div class="flex items-center gap-4 p-4 hover:bg-slate-800/50 rounded-2xl transition-all group cursor-pointer border border-transparent hover:border-slate-700/50">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center text-white font-bold shadow-lg shadow-orange-500/20">
+                            @msg.NameSurname.Substring(0, 1).ToUpper()
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="text-white font-bold text-sm truncate">@msg.NameSurname</h4>
+                                <span class="text-[10px] text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">@msg.SendDate.ToString("dd MMM")</span>
+                            </div>
+                            <p class="text-slate-400 text-xs truncate group-hover:text-slate-300 transition-colors">@msg.Subject</p>
+                        </div>
+                    </div>
+                }
+                @if (Model.Count == 0)
+                {
+                    <div class="p-8 text-center text-slate-500">Henüz mesaj yok.</div>
+                }
+            </div>
+        </div>
+
+        <div class="bg-card-dark rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-black/20">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-blue-500">rocket_launch</span>
+                    Son Eklenen Projeler
+                </h3>
+            </div>
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @if (ViewBag.LastProjects != null)
+                {
+                    @foreach (var proj in ViewBag.LastProjects)
+                    {
+                        <a href="@proj.ImageUrl" target="_blank" class="block p-4 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:border-primary/50 hover:bg-slate-800 transition-all group">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">terminal</span>
+                                </div>
+                                <span class="material-symbols-outlined text-slate-600 group-hover:text-white text-sm">arrow_outward</span>
+                            </div>
+                            <h4 class="text-white font-bold text-sm mb-1 truncate">@proj.ProjectTitle</h4>
+                            <p class="text-slate-500 text-xs truncate">Projeye Git</p>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-card-dark rounded-3xl border border-slate-800 p-8 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+
+        <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+            <div class="w-24 h-24 rounded-full border-4 border-slate-700/50 p-1 flex-shrink-0 shadow-xl">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=197fe6&color=fff" class="w-full h-full rounded-full object-cover" alt="Profile">
+            </div>
+
+            <div class="text-center md:text-left flex-1">
+                <h3 class="text-2xl font-bold text-white mb-2 flex items-center justify-center md:justify-start gap-2">
+                    Profil Özeti
+                    <span class="text-xs bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20 font-medium">Aktif</span>
+                </h3>
+                <p class="text-slate-400 leading-relaxed text-sm">
+                    Merhaba! Ben full stack geliştirme süreçlerine odaklanmış bir yazılımcıyım.
+                    Modern web teknolojileri, .NET Core mimarisi ve kullanıcı deneyimi üzerine çalışmalar yapıyorum.
+                    Bu panel üzerinden tüm projelerimi, teknik yetkinliklerimi ve gelen iş tekliflerini yönetiyorum.
+                </p>
+                <div class="mt-4 flex gap-4 justify-center md:justify-start">
+                    <a href="/About/AboutList" class="flex items-center gap-2 text-primary hover:text-white text-sm font-medium transition-colors group">
+                        Profil Detaylarına Git
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const colors = { primary: '#197fe6', purple: '#a855f7', orange: '#f97316' };
+
+    // 1. ANA GRAFİK
+    const ctxMain = document.getElementById('mainChart').getContext('2d');
+    let gradient = ctxMain.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(25, 127, 230, 0.5)');
+    gradient.addColorStop(1, 'rgba(25, 127, 230, 0.0)');
+
+    new Chart(ctxMain, {
+        type: 'bar',
+        data: {
+            labels: ['Projeler', 'Yetenekler', 'Hizmetler', 'Mesajlar'],
+            datasets: [{
+                label: 'Adet',
+                data: [@ViewBag.ProjectCount, @ViewBag.SkillCount, @ViewBag.ServiceCount, @ViewBag.MessageCount],
+                backgroundColor: gradient,
+                borderColor: colors.primary,
+                borderWidth: 2,
+                borderRadius: 8,
+                barThickness: 40,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
+
+    // 2. PASTA GRAFİK
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+            labels: ['Projeler', 'Yetenekler', 'Mesajlar'],
+            datasets: [{
+                data: [@ViewBag.ProjectCount, @ViewBag.SkillCount, @ViewBag.MessageCount],
+                backgroundColor: [colors.primary, colors.purple, colors.orange],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '80%',
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>

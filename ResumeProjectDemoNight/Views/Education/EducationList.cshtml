@@ -1,0 +1,85 @@
+﻿@using ResumeProjectDemoNight.Entities
+@model List<Education>
+
+@{
+    ViewData["Title"] = "EducationList";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="p-6">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+        <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Eğitim Geçmişi</h2>
+            <p class="text-slate-400 text-sm mt-1">Akademik kariyerinizi ve sertifikalarınızı zaman çizelgesi olarak yönetin.</p>
+        </div>
+
+        <a href="/Education/CreateEducation/" class="group flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-primary/40">
+            <span class="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
+            <span class="font-medium">Yeni Eğitim Ekle</span>
+        </a>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto">
+
+        <div class="absolute left-4 md:left-24 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-slate-700 to-transparent"></div>
+
+        <div class="space-y-8">
+            @foreach (var item in Model)
+            {
+                <div class="relative flex flex-col md:flex-row gap-6 md:gap-0 group">
+
+                    <div class="md:w-24 flex md:justify-end items-start pt-1 relative z-10 pl-12 md:pl-0">
+                        <div class="bg-card-dark border border-slate-700 text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm group-hover:border-primary/50 group-hover:text-primary transition-colors whitespace-nowrap">
+                            @item.WorkPeriodDate
+                        </div>
+                    </div>
+
+                    <div class="absolute left-4 md:left-24 top-4 -ml-[5px] w-3 h-3 rounded-full bg-slate-900 border-2 border-primary shadow-[0_0_10px_rgba(25,127,230,0.5)] z-20"></div>
+
+                    <div class="flex-1 md:pl-10 pl-12">
+                        <div class="bg-card-dark rounded-2xl border border-slate-800 p-6 shadow-lg relative hover:border-primary/30 transition-all duration-300 hover:-translate-y-1">
+
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-white group-hover:text-primary transition-colors">@item.Title</h3>
+
+                                <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    <a href="/Education/EditEducation/@item.EducationID" class="text-slate-500 hover:text-primary transition-colors" title="Düzenle">
+                                        <span class="material-symbols-outlined text-[18px]">edit_square</span>
+                                    </a>
+                                    <a href="/Education/DeleteEducation/@item.EducationID"
+                                       class="text-slate-500 hover:text-red-400 transition-colors"
+                                       title="Sil"
+                                       onclick="return confirm('Bu eğitimi silmek istediğinize emin misiniz?');">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                @item.Description
+                            </p>
+
+                            <span class="absolute bottom-4 right-4 text-[10px] text-slate-700 font-mono">ID: #@item.EducationID</span>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="flex flex-col items-center justify-center py-20 text-slate-500 ml-0 md:ml-10">
+                <div class="bg-slate-800/50 w-20 h-20 rounded-full flex items-center justify-center mb-4 border border-slate-700">
+                    <span class="material-symbols-outlined text-4xl opacity-50">school</span>
+                </div>
+                <h3 class="text-white font-medium text-lg">Eğitim bilgisi bulunamadı</h3>
+                <p class="text-sm mt-1 mb-6 text-center max-w-xs">Eğitim ve sertifika geçmişinizi ekleyerek başlayın.</p>
+                <a href="/Education/AddEducation/" class="text-primary text-sm font-medium hover:underline">İlk Kaydı Oluştur &rarr;</a>
+            </div>
+        }
+
+    </div>
+</div>

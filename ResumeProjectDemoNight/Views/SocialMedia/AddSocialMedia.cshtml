@@ -1,0 +1,57 @@
+﻿@model ResumeProjectDemoNight.Entities.SocialMedia
+@{
+    ViewData["Title"] = "AddSocialMedia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="p-6">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-white">Yeni Hesap Ekle</h2>
+        <p class="text-slate-400 text-sm mt-1">Sosyal medya profil bilgilerinizi giriniz.</p>
+    </div>
+
+    <div class="max-w-xl">
+        <form method="post">
+            <div class="bg-card-dark p-8 rounded-2xl border border-slate-800 shadow-xl">
+
+                <div class="space-y-6">
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Platform Adı (Name)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">label</span>
+                            <input type="text" asp-for="Name" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 outline-none transition-all placeholder:text-slate-600" placeholder="Örn: Instagram" required />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">İkon Kodu (IconUrl)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">code</span>
+                            <input type="text" asp-for="IconUrl" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 outline-none transition-all placeholder:text-slate-600" placeholder="Örn: fab fa-instagram" />
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">FontAwesome sınıflarını kullanın (örn: 'fab fa-github', 'fab fa-twitter').</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Profil Linki (Url)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-500 material-symbols-outlined text-[20px]">link</span>
+                            <input type="text" asp-for="Url" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl pl-10 p-3 focus:border-primary focus:ring-1 outline-none transition-all placeholder:text-slate-600" placeholder="https://..." />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-4 mt-8 pt-6 border-t border-slate-800">
+                    <button type="submit" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">save</span> Kaydet
+                    </button>
+                    <a href="/SocialMedia/SocialMediaList/" class="text-slate-400 hover:text-white px-4 py-2 transition-colors">İptal</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+

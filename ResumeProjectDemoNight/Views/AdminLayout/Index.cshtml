@@ -1,0 +1,206 @@
+﻿@using ResumeProjectDemoNight.Context
+@inject ResumeContext _context
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Geliştirici Portfolyo Yönetim Paneli</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#197fe6",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#181818",
+                        "sidebar-dark": "#121212",
+                        "card-dark": "#222222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar-item-active {
+            background-color: rgba(25, 127, 230, 0.1);
+            border-right: 3px solid #197fe6;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            color: #2dd4bf; /* Teal-colored outline icons */
+        }
+
+        /* Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #181818;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 flex min-h-screen overflow-hidden">
+    <aside class="w-64 bg-sidebar-dark border-r border-slate-800 flex flex-col fixed inset-y-0 left-0 z-50">
+        <div class="p-6 flex items-center gap-3">
+            <div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white" style="color: white;">terminal</span>
+            </div>
+            <div>
+                <h1 class="text-white text-lg font-bold leading-tight">Admin Paneli</h1>
+                <p class="text-slate-500 text-xs">Portfolyo Yöneticisi</p>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1 custom-scrollbar">
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Dashboard/Index">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text-sm font-medium">Özet Ekranı</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Feature/FeatureList">
+                <span class="material-symbols-outlined">star</span>
+                <span class="text-sm font-medium">Öne Çıkanlar</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/About/AboutList">
+                <span class="material-symbols-outlined">person</span>
+                <span class="text-sm font-medium">Hakkımda</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Service/ServiceList">
+                <span class="material-symbols-outlined">design_services</span>
+                <span class="text-sm font-medium">Hizmetler</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Portfolio/PortfolioList">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">layers</span>
+                <span class="text-sm font-semibold">Projeler</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Experience/ExperienceList">
+                <span class="material-symbols-outlined">work</span>
+                <span class="text-sm font-medium">Deneyimler</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Education/EducationList">
+                <span class="material-symbols-outlined">school</span>
+                <span class="text-sm font-medium">Eğitim</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Skill/SkillList">
+                <span class="material-symbols-outlined">code</span>
+                <span class="text-sm font-medium">Yetenekler</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Testimonial/TestimonialList">
+                <span class="material-symbols-outlined">reviews</span>
+                <span class="text-sm font-medium">Referanslar</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Category/CategoryList">
+                <span class="material-symbols-outlined">folder_open</span>
+                <span class="text-sm font-medium">Kategoriler</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/SocialMedia/SocialMediaList">
+                <span class="material-symbols-outlined">link</span>
+                <span class="text-sm font-medium">Sosyal Medya</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Contact/ContactList">
+                <span class="material-symbols-outlined">contact_mail</span>
+                <span class="text-sm font-medium">İletişim</span>
+            </a>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" href="/Message/MessageList">
+                <span class="material-symbols-outlined">mail</span>
+                <span class="text-sm font-medium">Mesajlar</span>
+            </a>
+        </nav>
+
+    </aside>
+    <main class="ml-64 flex-1 flex flex-col h-screen">
+        <header class="h-16 border-b border-slate-800 bg-background-dark/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-40">
+            <div class="flex items-center gap-4">
+                <h2 class="text-white text-lg font-bold leading-tight tracking-tight">Projeler Genel Bakış</h2>
+            </div>
+
+            <div class="flex items-center gap-6">
+
+                <div class="flex items-center gap-2">
+
+                    @{
+                        // Veritabanından sayıları çekiyoruz
+                        var unreadMsgCount = _context.Messages.Where(x => x.IsRead == false).Count();
+                        var totalProjectCount = _context.Portfolios.Count();
+                    }
+
+                    <a href="/Message/MessageList" class="relative p-2 text-slate-400 hover:text-white transition-colors group" title="Mesajlar">
+                        <span class="material-symbols-outlined group-hover:text-orange-400 transition-colors">mail</span>
+                        @if (unreadMsgCount > 0)
+                        {
+                            <span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-bold text-white border border-background-dark animate-pulse">
+                                @unreadMsgCount
+                            </span>
+                        }
+                    </a>
+
+                    <a href="/Portfolio/PortfolioList" class="relative p-2 text-slate-400 hover:text-white transition-colors group" title="Projeler">
+                        <span class="material-symbols-outlined group-hover:text-blue-400 transition-colors">notifications</span>
+                        <span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-bold text-white border border-background-dark">
+                            @totalProjectCount
+                        </span>
+                    </a>
+
+                    <div class="h-8 w-[1px] bg-slate-800 mx-2"></div>
+
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <p class="text-white text-sm font-bold">Yönetici</p>
+                        <p class="text-slate-500 text-xs">Süper Kullanıcı</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary/30 p-0.5">
+                        <div class="size-10 rounded-full border-2 border-primary/30 p-0.5">
+                            <div class="h-full w-full rounded-full bg-center bg-no-repeat bg-cover"
+                                 data-alt="Admin profil fotoğrafı"
+                                 style='background-image: url("/images/avatar.jpg");'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto custom-scroll">
+            @RenderBody()
+        </div>
+
+    </main>
+</body>
+</html>

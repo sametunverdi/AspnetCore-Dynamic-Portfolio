@@ -1,0 +1,92 @@
+﻿@using ResumeProjectDemoNight.Entities
+@model List<Service>
+@{
+    ViewData["Title"] = "ServiceList";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="p-6">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Hizmetlerim</h2>
+            <p class="text-slate-400 text-sm mt-1">Web sitenizde sunduğunuz teknik hizmetleri buradan yönetebilirsiniz.</p>
+        </div>
+
+        <a href="/Service/CreateService/" class="group flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-primary/40">
+            <span class="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add_circle</span>
+            <span class="font-medium">Yeni Hizmet Ekle</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        @foreach (var item in Model)
+        {
+            <div class="group bg-card-dark rounded-2xl border border-slate-800 p-6 relative overflow-hidden hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-primary/10 hover:-translate-y-1 flex flex-col h-full">
+
+                <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-primary/10"></div>
+
+                <div class="mb-6 relative z-10">
+                    <div class="w-16 h-16 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-primary shadow-md group-hover:scale-110 transition-transform duration-300">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Title" class="w-10 h-10 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                            <span class="material-symbols-outlined text-3xl hidden">design_services</span>
+                        }
+                        else
+                        {
+                            <span class="material-symbols-outlined text-3xl">design_services</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex-1 mb-6 relative z-10">
+                    <h3 class="text-lg font-bold text-white mb-2 line-clamp-1" title="@item.Title">
+                        @item.Title
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed line-clamp-3">
+                        @item.Description
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-slate-800 mt-auto relative z-10">
+                    <span class="text-[10px] font-mono text-slate-600 bg-slate-800 px-2 py-1 rounded">ID: #@item.ServiceId</span>
+
+                    <div class="flex gap-2">
+                        <a href="/Service/UpdateService/@item.ServiceId"
+                           class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-primary hover:text-white transition-colors"
+                           title="Düzenle">
+                            <span class="material-symbols-outlined text-[18px]">edit_square</span>
+                        </a>
+
+                        <a href="/Service/DeleteService/@item.ServiceId"
+                           class="p-2 rounded-lg bg-slate-800 text-slate-400 hover:bg-red-500/10 hover:text-red-500 transition-colors"
+                           onclick="return confirm('Bu hizmeti silmek istediğinize emin misiniz?');"
+                           title="Sil">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="flex flex-col items-center justify-center py-20 border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/50 mt-6">
+            <div class="bg-slate-800 w-20 h-20 rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-4xl text-slate-600">playlist_add</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Henüz Hizmet Eklenmemiş</h3>
+            <p class="text-slate-500 text-sm mt-2 mb-6 text-center">Web sitenizde sunduğunuz hizmetleri listelemek için ilk kaydı oluşturun.</p>
+            <a href="/Service/CreateService/" class="text-primary hover:text-white font-medium text-sm transition-colors">
+                + Hizmet Oluştur
+            </a>
+        </div>
+    }
+
+</div>
+
